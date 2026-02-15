@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: recruitment-server
+    restart: unless-stopped
+    ports:
+      - "13001:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongo:27017/recruitment_db
+    depends_on:
+      - mongo
+    networks:
+      - recruitment-network
+    volumes:
+      - ./public:/app/public
+
+  mongo:
+    image: mongo:6.0
+    container_name: recruitment-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=recruitment_db
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - recruitment-network
+
+volumes:
+  mongo_data:
+    driver: local
+
+networks:
+  recruitment-network:
+    driver: bridge
