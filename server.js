@@ -2,8 +2,8 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const app = require('./app');
 
-const PORT = process.env.PORT;
-const MONGODB_URI = process.env.MONGODB_URI;
+const PORT = 3001;
+const MONGODB_URI = "mongodb+srv://xoy4444_db_user:4JHcmevahpHo818D@cluster0.wlsf0s7.mongodb.net/?appName=Cluster0";
 
 mongoose.connect(MONGODB_URI)
   .then(() => {
